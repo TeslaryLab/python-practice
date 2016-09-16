@@ -1,6 +1,8 @@
 """输入一个字符串要求判断它里面有数字、大小写字母，并且长度是6-18"""
 def str_check(password):
-	password = str(password) # 避免非字符串类型传入
+	# password = str(password) # 类型强转 如果遇到None
+	if type(password) != type(str()):
+		return False
 	upper	= False
 	lower 	= False
 	number	= False
