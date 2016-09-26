@@ -31,7 +31,7 @@
 19. 引用&拷贝
 20. async/await for python 3.5
 21. enumerate
-22. lamda表达式
+22. lambda 表达式
 23. global && nonlocal
 24. Quine
 25. 装饰器 Decorator
