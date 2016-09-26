@@ -1,7 +1,7 @@
 """文件读写"""
 
 if __name__ == '__main__':
-	file_url = './file.txt'
+	file_url = './tool/file.txt'
 	write_mode = 'w+'
 	read_mode = 'r'
 	buffer_size = -1
