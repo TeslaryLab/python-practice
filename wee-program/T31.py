@@ -11,13 +11,13 @@ def read_json_from_file(file_path):
 		data = json.load(f)
 	for key in data:
 		print(data[key])
-	with open('./tool/new_data.json', 'w') as f:
+	with open('../source/new_data.json', 'w') as f:
 		json.dump(data, f)
 
 if __name__ == '__main__':
 	json_data = {'name' : 'ACME','shares' : 100, 'price' : 542.23}
 	json_str = json.dumps(json_data)
-	file_path = './tool/data.json'
+	file_path = '../source/data.json'
 	read_json_from_str(json_str)
 	read_json_from_file(file_path)
 

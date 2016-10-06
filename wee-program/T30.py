@@ -2,7 +2,7 @@
 import configparser
 
 cf = configparser.ConfigParser()
-cf.read('./tool/init.conf', encoding = 'utf-8')
+cf.read('../source/init.conf', encoding = 'utf-8')
 
 # section list
 s = cf.sections()
@@ -26,7 +26,7 @@ else:
 	cf.add_section('test')
 	cf.set('test', 'option', 'startup')
 	cf.set('test', 'option_to_del', 'del_me')
-	cf.write(open('./tool/init.conf', 'w', encoding = 'utf-8'))
+	cf.write(open('../source/init.conf', 'w', encoding = 'utf-8'))
 	print('write scuess')
 
 # 删除 option
@@ -42,7 +42,7 @@ if cf.has_section('test'):
 	print('del test scuess')
 
 # 更新值文件
-cf.write(open('./tool/init.conf', 'w', encoding = 'utf-8'))
+cf.write(open('../source/init.conf', 'w', encoding = 'utf-8'))
 	
 # 更新 option 值 --> 同 set
 
