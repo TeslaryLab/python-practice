@@ -1,6 +1,6 @@
-import socket, ssl, pprint
+import socket, ssl
+# import pprint
 
-# 补全函数 parsed_url
 def parsed_url(url):
     '''
     url 可能的值如下
@@ -71,54 +71,46 @@ def parsed_url(url):
     return protocol, host, port, path
 
 
-# 2
-# 把向服务器发送 HTTP 请求并且获得数据这个过程封装成函数
-# 定义如下
 def get(url):
     '''
     返回的数据类型为 bytes
     '''
     (protocol, host, url_port, path) = parsed_url(url)
+    context = ssl.create_default_context()
+    context.check_hostname = True
+    conn = socket.socket(socket.AF_INET)
     if protocol == 'HTTPS':
-        context = ssl.create_default_context()
-        context.check_hostname = True
-        conn = context.wrap_socket(socket.socket(socket.AF_INET), server_hostname=host)
-        conn.connect((host, url_port))
-        cert = conn.getpeercert()
-        pprint.pprint(cert)
-    if protocol == 'HTTP':
-        conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        conn.connect((host, url_port))
-        ip, port = conn.getsockname()
+        conn = context.wrap_socket(conn, server_hostname=host)
+        # cert = conn.getpeercert()
+        # pprint.pprint(cert)
+    
+    conn.connect((host, url_port))
         
     http_request = 'GET {} HTTP/1.1\r\nhost:{}\r\nConnection: close\r\n\r\n'.format(path, host)
     request = http_request.encode('utf-8')
-    if protocol == 'HTTPS':
-    	conn.sendall(request)
-    else:
-      	conn.send(request)
+    conn.send(request)
     response = b''
-    response_header = conn.recv(1023)
+    response_header = conn.recv(1024)
+    # get stauts
     status = str(response_header).split("\r\n")[0].split(" ")[1]
     print('status,', status)
     response += response_header
     while True:
-        r = conn.recv(1023)
+        r = conn.recv(1024)
         response += r
         if len(r) == 0:
             break
     return response
 
 """
-资料:
 在 Python3 中，bytes 和 str 的互相转换方式是
 str.encode('utf-8')
 bytes.decode('utf-8')
-
 send 函数的参数和 recv 函数的返回值都是 bytes 类型
 """
 
 if __name__ == '__main__':
     url = 'https://movie.douban.com/top250'
     r = get(url)
-    print(r)
+    with open('data.html', 'w+', encoding='utf-8') as f:
+        f.write(str(r,encoding='utf-8'))
